@@ -308,12 +308,6 @@ int PCASubspaceGenerator::GenerateSubspace(SampleSet* sampleSet, Subspace* subsp
 		if(!eigen(XTX.GetData(),tmpv.GetData(),eigenvalues.GetData(),XTX.GetNumRows(),verbose)) return 0;
 		if(verbose) printf("Computing actual eigenvectors...\n");			
 		eigenvectors = tmpv*XT;
-		for(i=0; i<N; i++) {
-			double s = 1.00 / sqrt(eigenvalues[i][0]);
-			for(j=0;j<n;j++) {
-				eigenvectors[i][j] *= s;
-			}
-		}
 		if(verbose) printf("Saving subspace data...\n");
 		subspace->SetData(SUBSPACE_PCA,N,n,avg.GetData(),eigenvectors.GetData(),eigenvalues.GetData());		
 	} else {
@@ -375,6 +369,7 @@ void Subspace::Normalize() {
 			sum+=subspaceAxes[i*originalDim+j]*subspaceAxes[i*originalDim+j];
 		}
 		norm = sqrt(sum);
+		if(norm==0) continue;
 		for(j=0;j<originalDim;j++) {
 			subspaceAxes[i*originalDim+j] = subspaceAxes[i*originalDim+j]/norm;
 		}
