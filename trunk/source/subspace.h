@@ -91,6 +91,9 @@ public:
 	//reoders the axis in the absolute falling order of axesCriterionFn
 	void ReorderAbsDescending();
 
+	//trims the subspace leaving only the first dim axes
+	void Trim(long dim);
+
 	//returns subspaceAxes as a matrix
 	//each row of a matrix will be a single axis
 	Matrix ToMatrix();

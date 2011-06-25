@@ -162,6 +162,13 @@ void Subspace::ReorderAbsDescending() {
 	free(tmp);
 }
 
+void Subspace::Trim(long dim) {
+	if(dim > subspaceDim) return;
+	subspaceDim = dim;
+	subspaceAxes = (double *)realloc(subspaceAxes, subspaceDim*originalDim*sizeof(double));
+	axesCriterionFn = (double *)realloc(axesCriterionFn, subspaceDim*sizeof(double));	
+}
+
 Matrix Subspace::ToMatrix() {
 	Matrix m(subspaceDim, originalDim);
 	memcpy(m.GetData(),subspaceAxes,originalDim*subspaceDim*sizeof(double));
@@ -271,6 +278,7 @@ int LDASubspaceGenerator::GenerateSubspace(SampleSet* sampleSet, Subspace* subsp
 
 	subspace->ReorderAbsDescending();
 	subspace->Normalize();
+	subspace->Trim(Nc-1);
 
 	return 1;
 }
@@ -323,6 +331,7 @@ int PCASubspaceGenerator::GenerateSubspace(SampleSet* sampleSet, Subspace* subsp
 
 	subspace->Normalize();
 	subspace->ReorderAbsDescending();
+	subspace->Trim(N-1);
 
 	return 1;
 }
@@ -337,6 +346,7 @@ SubspaceProjector::~SubspaceProjector() {
 }
 
 void SubspaceProjector::ProjectSampleSet(SampleSet *originalSamples, SampleSet *projectedSamples, int dim) {
+	if((!dim)||(dim>subspace->subspaceDim)) dim = subspace->subspaceDim;
 	long n = originalSamples->Size();
 	projectedSamples->Init(n);
 	for(long i=0;i<n;i++) {
@@ -345,7 +355,7 @@ void SubspaceProjector::ProjectSampleSet(SampleSet *originalSamples, SampleSet *
 };
 
 void SubspaceProjector::ProjectSample(Sample *originalSample, Sample *projectedSample, int dim) {
-	if(!dim) dim = subspace->subspaceDim;
+	if((!dim)||(dim>subspace->subspaceDim)) dim = subspace->subspaceDim;
 	projectedSample->Init(dim);
 	long i,j;
 	double sum;
