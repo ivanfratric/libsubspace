@@ -20,7 +20,7 @@ Table of contents
 ###########
 
 LibSubspace is a C++ library for pattern recognition in subspaces. The library implements classes and functions for reading and writing of samples, learning subspaces based on training data and preforming classification tests. Currently, subspace generation based on principal component analysis (PCA) and linear discriminant analysis (LDA) is implemented. Given a set of image samples, the library also supports learning and testing of local subspaces, for example Local Binary LDA (LBLDA) subspace, as was described in the paper:
-I. Fratric, S. Ribaric, "Local Binary LDA for Face Recognition", Lecture notes in Computer science, Vol. 6583, 2011, pp. 144-155.
+I. Fratric, S. Ribaric, "Local Binary LDA for Face Recognition", Lecture notes in Computer science, Vol. 6583, 2011, pp. 144-155. (http://bib.irb.hr/datoteka/511724.lblda.pdf).
 
 
 ###############
